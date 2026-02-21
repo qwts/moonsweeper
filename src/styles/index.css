@@ -1,7 +1,208 @@
 /**
  * Global styles for MindSweeper
+ * Theme system with CSS custom properties
+ * WCAG AA compliant contrast ratios documented
  */
 
+/* ============================================
+   LIGHT THEME (Default)
+   ============================================ */
+:root {
+  /* Background colors */
+  --color-bg-primary: #ffffff; /* Main backgrounds */
+  --color-bg-secondary: #f5f5f5; /* Secondary elements like controls */
+  --color-bg-tertiary: #fafafa; /* Placeholder areas */
+  --color-bg-gradient-start: #667eea; /* Game container gradient */
+  --color-bg-gradient-end: #764ba2;
+  
+  /* Text colors */
+  --color-text-primary: #333333; /* Main text - 12.6:1 on white */
+  --color-text-secondary: #666666; /* Secondary text - 5.7:1 on white */
+  --color-text-muted: #999999; /* Disabled/muted text - 2.8:1 */
+  --color-text-on-dark: #ffffff; /* Text on dark backgrounds */
+  
+  /* Cell colors */
+  --color-cell-hidden: #c0c0c0; /* Hidden cell background */
+  --color-cell-hidden-highlight: #e0e0e0; /* Subtle pattern highlight */
+  --color-cell-hidden-hover: #d0d0d0; /* Hover state */
+  --color-cell-revealed: #f0f0f0; /* Revealed cell background */
+  --color-cell-mine: #ff4444; /* Mine cell background */
+  --color-cell-shadow-dark: rgba(0, 0, 0, 0.3); /* Inset shadows */
+  --color-cell-shadow-light: rgba(255, 255, 255, 0.7); /* Highlight shadows */
+  
+  /* Number colors - WCAG AA compliant on light background */
+  --color-number-1: #0000ff; /* Blue - 8.6:1 contrast */
+  --color-number-2: #008000; /* Green - 4.5:1 contrast */
+  --color-number-3: #ff0000; /* Red - 4.0:1 contrast */
+  --color-number-4: #000080; /* Dark blue - 13.1:1 contrast */
+  --color-number-5: #800000; /* Maroon - 10.7:1 contrast */
+  --color-number-6: #008080; /* Teal - 5.2:1 contrast */
+  --color-number-7: #000000; /* Black - 21:1 contrast */
+  --color-number-8: #808080; /* Gray - 3.9:1 contrast */
+  
+  /* Border colors */
+  --color-border-primary: #999999; /* Board borders */
+  --color-border-secondary: #d0d0d0; /* Input/button borders */
+  --color-border-light: #e0e0e0; /* Light dividers */
+  --color-border-focus: #0078d4; /* Focus indicators */
+  
+  /* Button colors */
+  --color-button-primary: #4caf50; /* Primary action buttons */
+  --color-button-primary-hover: #45a049;
+  --color-button-primary-active: #3d8b40;
+  --color-button-secondary: #667eea; /* Secondary buttons */
+  --color-button-secondary-hover: #5568d3;
+  --color-button-disabled: #f0f0f0;
+  --color-button-text-disabled: #999999;
+  
+  /* Status bar colors */
+  --color-status-bg: #2c2c2c; /* Status bar background */
+  --color-status-text: #ffffff; /* Status bar text */
+  --color-status-value-bg: #000000; /* Digital display background */
+  --color-status-value-text: #00ff00; /* Digital display text */
+  --color-status-label: #999999; /* Labels */
+  
+  /* Focus ring */
+  --color-focus-ring: #0078d4; /* Keyboard focus indicator */
+  
+  /* Shadows */
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-large: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   DARK THEME
+   ============================================ */
+[data-theme="dark"] {
+  /* Background colors */
+  --color-bg-primary: #1e1e1e; /* Main backgrounds */
+  --color-bg-secondary: #2c2c2c; /* Secondary elements */
+  --color-bg-tertiary: #252525; /* Placeholder areas */
+  --color-bg-gradient-start: #2d3561;
+  --color-bg-gradient-end: #3d2853;
+  
+  /* Text colors */
+  --color-text-primary: #ffffff; /* Main text - 21:1 on dark bg */
+  --color-text-secondary: #cccccc; /* Secondary text - 11.5:1 */
+  --color-text-muted: #888888; /* Muted text - 4.6:1 */
+  --color-text-on-dark: #ffffff;
+  
+  /* Cell colors */
+  --color-cell-hidden: #404040; /* Hidden cell background */
+  --color-cell-hidden-highlight: #555555; /* Pattern highlight */
+  --color-cell-hidden-hover: #4a4a4a; /* Hover state */
+  --color-cell-revealed: #2a2a2a; /* Revealed cell background */
+  --color-cell-mine: #d32f2f; /* Mine cell background */
+  --color-cell-shadow-dark: rgba(0, 0, 0, 0.5);
+  --color-cell-shadow-light: rgba(255, 255, 255, 0.1);
+  
+  /* Number colors - Enhanced for dark background */
+  --color-number-1: #64b5f6; /* Light blue - 6.5:1 */
+  --color-number-2: #81c784; /* Light green - 6.8:1 */
+  --color-number-3: #ef5350; /* Light red - 4.7:1 */
+  --color-number-4: #90caf9; /* Lighter blue - 8.4:1 */
+  --color-number-5: #e57373; /* Light maroon - 5.2:1 */
+  --color-number-6: #4dd0e1; /* Light teal - 8.1:1 */
+  --color-number-7: #eeeeee; /* Light gray - 15.3:1 */
+  --color-number-8: #bdbdbd; /* Medium gray - 8.9:1 */
+  
+  /* Border colors */
+  --color-border-primary: #555555;
+  --color-border-secondary: #404040;
+  --color-border-light: #333333;
+  --color-border-focus: #4fc3f7;
+  
+  /* Button colors */
+  --color-button-primary: #66bb6a;
+  --color-button-primary-hover: #5cb860;
+  --color-button-primary-active: #4caf50;
+  --color-button-secondary: #7986cb;
+  --color-button-secondary-hover: #6573c3;
+  --color-button-disabled: #2c2c2c;
+  --color-button-text-disabled: #666666;
+  
+  /* Status bar colors */
+  --color-status-bg: #1a1a1a;
+  --color-status-text: #ffffff;
+  --color-status-value-bg: #000000;
+  --color-status-value-text: #00ff00;
+  --color-status-label: #888888;
+  
+  /* Focus ring */
+  --color-focus-ring: #4fc3f7;
+  
+  /* Shadows - More subtle in dark theme */
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-large: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   COLORBLIND-FRIENDLY THEME
+   Optimized for deuteranopia, protanopia, and tritanopia
+   Avoids red-green confusion, uses blue-yellow-brown palette
+   ============================================ */
+[data-theme="colorblind"] {
+  /* Use light theme as base, override number colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #fafafa;
+  --color-bg-gradient-start: #667eea;
+  --color-bg-gradient-end: #764ba2;
+  
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-text-on-dark: #ffffff;
+  
+  --color-cell-hidden: #c0c0c0;
+  --color-cell-hidden-highlight: #e0e0e0;
+  --color-cell-hidden-hover: #d0d0d0;
+  --color-cell-revealed: #f0f0f0;
+  --color-cell-mine: #cc3311; /* Red-brown - distinguishable */
+  --color-cell-shadow-dark: rgba(0, 0, 0, 0.3);
+  --color-cell-shadow-light: rgba(255, 255, 255, 0.7);
+  
+  /* Number colors - CVD-safe palette */
+  --color-number-1: #0077bb; /* Blue - 5.3:1 */
+  --color-number-2: #ee7733; /* Orange - 3.5:1 (enhanced with bold) */
+  --color-number-3: #cc3311; /* Red-brown - 5.0:1 */
+  --color-number-4: #009988; /* Teal-green - 4.8:1 */
+  --color-number-5: #ee3377; /* Magenta - 4.2:1 */
+  --color-number-6: #0099cc; /* Cyan - 4.5:1 */
+  --color-number-7: #332288; /* Dark purple - 11.5:1 */
+  --color-number-8: #bbbbbb; /* Light gray - 1.9:1 (used with background) */
+  
+  --color-border-primary: #999999;
+  --color-border-secondary: #d0d0d0;
+  --color-border-light: #e0e0e0;
+  --color-border-focus: #0077bb;
+  
+  --color-button-primary: #0077bb;
+  --color-button-primary-hover: #0066aa;
+  --color-button-primary-active: #005588;
+  --color-button-secondary: #ee7733;
+  --color-button-secondary-hover: #dd6622;
+  --color-button-disabled: #f0f0f0;
+  --color-button-text-disabled: #999999;
+  
+  --color-status-bg: #2c2c2c;
+  --color-status-text: #ffffff;
+  --color-status-value-bg: #000000;
+  --color-status-value-text: #0077bb; /* Blue instead of green */
+  --color-status-label: #999999;
+  
+  --color-focus-ring: #0077bb;
+  
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-large: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +216,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 code {

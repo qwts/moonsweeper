@@ -1,0 +1,58 @@
+{
+  "filename": "PHASE_02_THEMING_WCAG_VALIDATION.md",
+  "file_stats": {
+    "total_lines": 289,
+    "byte_size": 12450
+  },
+  "blocks": [
+    {
+      "id": "0xB001",
+      "label": "Overview and WCAG Standards",
+      "lines": [8, 22],
+      "dependencies": [],
+      "query_hints": ["WCAG compliance", "contrast ratio standards", "Level AA requirements", "theme overview", "accessibility goals"]
+    },
+    {
+      "id": "0xB002",
+      "label": "Light Theme Validation",
+      "lines": [24, 72],
+      "dependencies": ["src/styles/index.css"],
+      "query_hints": ["light theme colors", "contrast ratios", "number colors", "UI component contrast", "default theme validation"]
+    },
+    {
+      "id": "0xB003",
+      "label": "Dark Theme Validation",
+      "lines": [74, 120],
+      "dependencies": ["src/styles/index.css"],
+      "query_hints": ["dark theme colors", "dark mode contrast", "reduced eye strain", "enhanced contrast ratios", "dark background"]
+    },
+    {
+      "id": "0xB004",
+      "label": "Colorblind-Friendly Theme Validation",
+      "lines": [122, 190],
+      "dependencies": ["src/styles/index.css", "Paul Tol color palette"],
+      "query_hints": ["color vision deficiency", "CVD support", "deuteranopia", "protanopia", "colorblind safe palette", "distinguishability"]
+    },
+    {
+      "id": "0xB005",
+      "label": "Testing Methodology",
+      "lines": [192, 245],
+      "dependencies": ["WebAIM", "Chrome DevTools", "Coblis simulator"],
+      "query_hints": ["testing tools", "contrast validation", "CVD simulation", "Lighthouse audit", "acceptance criteria"]
+    },
+    {
+      "id": "0xB006",
+      "label": "Future Improvements",
+      "lines": [247, 271],
+      "dependencies": [],
+      "query_hints": ["Level AAA", "high contrast theme", "custom themes", "enhanced CVD support", "accessibility statement"]
+    },
+    {
+      "id": "0xB007",
+      "label": "Conclusion",
+      "lines": [273, 289],
+      "dependencies": [],
+      "query_hints": ["phase completion", "WCAG certification", "production ready", "theme implementation summary"]
+    }
+  ]
+}

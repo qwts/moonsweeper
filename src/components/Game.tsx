@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { GameProvider } from '../contexts/GameContext';
 import { useGame } from '../hooks/useGame';
+import { useTheme } from '../hooks/useTheme';
 import { EndGameModal } from './EndGameModal';
 import { GameSetup } from './GameSetup';
 import { Board } from './Board';
@@ -17,6 +18,9 @@ import styles from '../styles/Game.module.css';
 function GameInternal() {
   const { gameState, status, elapsedTime, resetGame, startNewGame, revealCell, toggleFlag, performChord, undo, redo, canUndo, canRedo } = useGame();
   const [showSetup, setShowSetup] = useState(true);
+  
+  // Initialize theme system
+  useTheme();
 
   // Handle starting a new game from setup screen
   const handleStartGame = (config: any) => {

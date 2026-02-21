@@ -285,10 +285,12 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
         .input-group input[type="number"] {
           width: 100px;
-          padding: 6px 8px;
+          padding: 10px 12px;
           border: 1px solid #ccc;
           border-radius: 4px;
           font-size: 14px;
+          min-height: 44px;
+          box-sizing: border-box;
         }
 
         .input-group input[type="number"]:focus {
@@ -317,6 +319,7 @@ export const GameSetup: React.FC<GameSetupProps> = ({
           font-weight: 600;
           cursor: pointer;
           transition: background-color 0.2s;
+          min-height: 48px;
         }
 
         .start-game-button:hover:not(:disabled),
@@ -336,6 +339,62 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
         .new-game-button:hover {
           background-color: #1976D2;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 480px) {
+          .game-setup {
+            padding: 16px;
+            max-width: 100%;
+          }
+
+          .game-setup h2 {
+            font-size: 20px;
+          }
+
+          .mode-selector {
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-start;
+          }
+
+          .preset-selector label,
+          .mode-selector label {
+            padding: 10px;
+            font-size: 14px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+          }
+
+          .input-group {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+          }
+
+          .input-group input[type="number"] {
+            width: 100%;
+          }
+        }
+
+        /* Compact mode for popup context */
+        @media (max-width: 400px) {
+          .game-setup {
+            padding: 12px;
+          }
+
+          .game-setup h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+          }
+
+          .mode-selector,
+          .preset-selector,
+          .custom-config {
+            gap: 10px;
+            margin-bottom: 16px;
+          }
         }
       `}</style>
     </div>

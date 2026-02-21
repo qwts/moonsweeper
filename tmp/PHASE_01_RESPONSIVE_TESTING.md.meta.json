@@ -1,0 +1,169 @@
+{
+  "filename": "PHASE_01_RESPONSIVE_TESTING.md",
+  "file_stats": {
+    "total_lines": 507,
+    "byte_size": 18432
+  },
+  "blocks": [
+    {
+      "id": "0xR001",
+      "label": "Overview and purpose of testing checklist",
+      "lines": [7, 13],
+      "dependencies": [],
+      "query_hints": [
+        "responsive testing",
+        "WCAG compliance",
+        "mobile breakpoints",
+        "touch targets",
+        "accessibility"
+      ]
+    },
+    {
+      "id": "0xR002",
+      "label": "Test environment setup and configuration",
+      "lines": [15, 38],
+      "dependencies": ["Chrome DevTools", "Device Emulation"],
+      "query_hints": [
+        "setup",
+        "tools",
+        "device emulation",
+        "test configurations",
+        "board sizes"
+      ]
+    },
+    {
+      "id": "0xR003",
+      "label": "Breakpoint testing matrix for all viewports",
+      "lines": [40, 141],
+      "dependencies": ["Board.module.css", "breakpoint values"],
+      "query_hints": [
+        "320px",
+        "375px",
+        "480px",
+        "768px",
+        "1024px",
+        "breakpoints",
+        "mobile testing",
+        "viewport sizes"
+      ]
+    },
+    {
+      "id": "0xR004",
+      "label": "Touch target audit for WCAG compliance",
+      "lines": [143, 185],
+      "dependencies": ["WCAG 2.1", "Controls.tsx", "Cell.tsx", "GameSetup.tsx"],
+      "query_hints": [
+        "touch targets",
+        "44px minimum",
+        "WCAG AAA",
+        "accessibility audit",
+        "measurement"
+      ]
+    },
+    {
+      "id": "0xR005",
+      "label": "Popup scaling logic testing scenarios",
+      "lines": [187, 246],
+      "dependencies": ["popup.tsx", "calculateBoardScale"],
+      "query_hints": [
+        "scaling",
+        "popup mode",
+        "400x600px",
+        "board fit",
+        "calculation formula"
+      ]
+    },
+    {
+      "id": "0xR006",
+      "label": "No horizontal scroll verification procedures",
+      "lines": [248, 278],
+      "dependencies": ["viewport width", "overflow-x"],
+      "query_hints": [
+        "horizontal scroll",
+        "viewport width",
+        "scrollWidth",
+        "overflow",
+        "edge cases"
+      ]
+    },
+    {
+      "id": "0xR007",
+      "label": "Text readability and font size checks",
+      "lines": [280, 316],
+      "dependencies": ["font-size", "contrast", "legibility"],
+      "query_hints": [
+        "readability",
+        "font sizes",
+        "contrast",
+        "zoom",
+        "accessibility"
+      ]
+    },
+    {
+      "id": "0xR008",
+      "label": "Cross-context testing (popup, full page, options)",
+      "lines": [318, 348],
+      "dependencies": ["popup mode", "full page mode", "options page"],
+      "query_hints": [
+        "contexts",
+        "popup",
+        "full page",
+        "options",
+        "state persistence"
+      ]
+    },
+    {
+      "id": "0xR009",
+      "label": "Device testing matrix for real devices",
+      "lines": [350, 388],
+      "dependencies": ["physical devices", "DevTools emulation"],
+      "query_hints": [
+        "device testing",
+        "iPhone",
+        "iPad",
+        "Android",
+        "real devices",
+        "emulation"
+      ]
+    },
+    {
+      "id": "0xR010",
+      "label": "Screenshot documentation requirements",
+      "lines": [390, 434],
+      "dependencies": [],
+      "query_hints": [
+        "screenshots",
+        "documentation",
+        "QA",
+        "naming convention",
+        "storage"
+      ]
+    },
+    {
+      "id": "0xR011",
+      "label": "Sign-off checklist and acceptance criteria",
+      "lines": [436, 466],
+      "dependencies": ["acceptance criteria", "performance"],
+      "query_hints": [
+        "sign-off",
+        "acceptance",
+        "completion",
+        "performance",
+        "polish"
+      ]
+    },
+    {
+      "id": "0xR012",
+      "label": "Known issues and limitations",
+      "lines": [468, 501],
+      "dependencies": [],
+      "query_hints": [
+        "issues",
+        "limitations",
+        "workarounds",
+        "mitigation",
+        "constraints"
+      ]
+    }
+  ]
+}

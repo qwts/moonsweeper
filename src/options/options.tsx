@@ -4,7 +4,7 @@
  * Provides settings UI for:
  * - Difficulty presets (Easy, Medium, Hard, Custom)
  * - Custom game configuration
- * - Theme selection (placeholder for Section 3)
+ * - Theme selection (Light, Dark, Colorblind, System)
  * - Sound preferences (placeholder for Section 3)
  * - Statistics viewer (placeholder for future)
  */
@@ -13,6 +13,7 @@ import { MessageType, UpdateSettingsMessage } from '../shared/message-types';
 import { SyncSettings } from '../shared/chrome-storage';
 import { DIFFICULTY_PRESETS, GRID_CONSTRAINTS } from '../shared/constants';
 import { validateCustomConfig } from '../core/presets';
+import { useTheme, type ThemeSetting } from '../hooks/useTheme';
 import styles from './options.module.css';
 
 type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'custom';
@@ -33,6 +34,9 @@ export const Options: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
+  
+  // Initialize theme system with live preview
+  const { themeSetting, setTheme } = useTheme();
 
   // Load settings from background on mount
   useEffect(() => {
@@ -127,10 +131,13 @@ export const Options: React.FC = () => {
   };
 
   // Handle theme change (placeholder for Section 3)
-  const handleThemeChange = async (theme: 'light' | 'dark' | 'colorblind') => {
-    const newSettings = { ...settings, theme };
+  const handleThemeChange = async (newTheme: ThemeSetting) => {
+    // Update theme immediately for live preview
+    await setTheme(newTheme);
+    
+    // Optionally persist to general settings (theme is already persisted by setTheme)
+    const newSettings = { ...settings, theme: newTheme === 'system' ? 'light' : newTheme };
     setSettings(newSettings);
-    await saveSettings({ theme });
   };
 
   // Handle sound settings change (placeholder for Section 3)
@@ -283,12 +290,11 @@ export const Options: React.FC = () => {
           </div>
         </section>
 
-        {/* Theme Settings (Placeholder for Section 3) */}
+        {/* Theme Settings */}
         <section className={styles.section}>
           <h2>Theme</h2>
           <p className={styles.description}>
-            Choose your preferred visual theme.
-            <span className={styles.comingSoon}>Coming soon in Section 3</span>
+            Choose your preferred visual theme. Changes apply immediately.
           </p>
 
           <div className={styles.themeOptions}>
@@ -296,10 +302,24 @@ export const Options: React.FC = () => {
               <input
                 type="radio"
                 name="theme"
+                value="system"
+                checked={themeSetting === 'system'}
+                onChange={() => handleThemeChange('system')}
+                className={styles.radio}
+              />
+              <div className={styles.themeContent}>
+                <h3>System Default</h3>
+                <p>Follow your system preference</p>
+              </div>
+            </label>
+
+            <label className={styles.themeCard}>
+              <input
+                type="radio"
+                name="theme"
                 value="light"
-                checked={settings.theme === 'light'}
+                checked={themeSetting === 'light'}
                 onChange={() => handleThemeChange('light')}
-                disabled
                 className={styles.radio}
               />
               <div className={styles.themeContent}>
@@ -313,9 +333,8 @@ export const Options: React.FC = () => {
                 type="radio"
                 name="theme"
                 value="dark"
-                checked={settings.theme === 'dark'}
+                checked={themeSetting === 'dark'}
                 onChange={() => handleThemeChange('dark')}
-                disabled
                 className={styles.radio}
               />
               <div className={styles.themeContent}>
@@ -329,14 +348,13 @@ export const Options: React.FC = () => {
                 type="radio"
                 name="theme"
                 value="colorblind"
-                checked={settings.theme === 'colorblind'}
+                checked={themeSetting === 'colorblind'}
                 onChange={() => handleThemeChange('colorblind')}
-                disabled
                 className={styles.radio}
               />
               <div className={styles.themeContent}>
-                <h3>Color-blind</h3>
-                <p>Accessible colors</p>
+                <h3>Color-Blind Friendly</h3>
+                <p>Optimized for color vision deficiency</p>
               </div>
             </label>
           </div>

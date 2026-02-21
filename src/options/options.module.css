@@ -4,8 +4,8 @@
 
 .container {
   min-height: 100vh;
-  background: #f5f5f5;
-  color: #333;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
 }
 
 .loading {
@@ -14,29 +14,29 @@
   align-items: center;
   min-height: 100vh;
   font-size: 18px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .header {
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border-light);
   padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-small);
 }
 
 .header h1 {
   margin: 0;
   font-size: 28px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-text-primary);
 }
 
 .saveIndicator {
   font-size: 14px;
-  color: #4caf50;
+  color: var(--color-button-primary);
   font-weight: 500;
   animation: fadeIn 0.3s ease-in;
 }
@@ -90,23 +90,23 @@
 }
 
 .section {
-  background: #fff;
+  background: var(--color-bg-primary);
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-medium);
 }
 
 .section h2 {
   margin: 0 0 8px 0;
   font-size: 24px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-text-primary);
 }
 
 .description {
   margin: 0 0 24px 0;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -134,20 +134,20 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border-light);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .presetCard:hover {
-  border-color: #2196f3;
-  background: #f5f9ff;
+  border-color: var(--color-button-secondary);
+  background: var(--color-bg-tertiary);
 }
 
 .presetCard:has(input:checked) {
-  border-color: #2196f3;
-  background: #e3f2fd;
+  border-color: var(--color-button-secondary);
+  background: var(--color-bg-tertiary);
 }
 
 .radio {
@@ -155,20 +155,20 @@
   cursor: pointer;
   width: 18px;
   height: 18px;
-  accent-color: #2196f3;
+  accent-color: var(--color-button-secondary);
 }
 
 .presetContent h3 {
   margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-text-primary);
 }
 
 .presetContent p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .customConfig {
@@ -178,9 +178,9 @@
 .customControls {
   margin: 16px 0 0 30px;
   padding: 16px;
-  background: #f9f9f9;
+  background: var(--color-bg-tertiary);
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border-light);
 }
 
 .inputGroup {
@@ -192,27 +192,29 @@
   margin-bottom: 6px;
   font-size: 14px;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-secondary);
 }
 
 .input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border-secondary);
   border-radius: 6px;
   font-size: 14px;
   transition: border-color 0.2s ease;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 .input:focus {
   outline: none;
-  border-color: #2196f3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  border-color: var(--color-button-secondary);
+  box-shadow: 0 0 0 3px var(--color-bg-tertiary);
 }
 
 .input:disabled {
-  background: #f0f0f0;
-  color: #999;
+  background: var(--color-button-disabled);
+  color: var(--color-button-text-disabled);
   cursor: not-allowed;
 }
 
@@ -229,8 +231,8 @@
 .applyButton {
   width: 100%;
   padding: 12px 24px;
-  background: #2196f3;
-  color: #fff;
+  background: var(--color-button-secondary);
+  color: var(--color-text-on-dark);
   border: none;
   border-radius: 6px;
   font-size: 16px;
@@ -240,11 +242,11 @@
 }
 
 .applyButton:hover:not(:disabled) {
-  background: #1976d2;
+  background: var(--color-button-secondary-hover);
 }
 
 .applyButton:disabled {
-  background: #ccc;
+  background: var(--color-button-disabled);
   cursor: not-allowed;
 }
 
@@ -259,24 +261,33 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border-light);
   border-radius: 8px;
-  cursor: not-allowed;
-  opacity: 0.6;
+  cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.themeCard:hover {
+  border-color: var(--color-button-secondary);
+  background: var(--color-bg-tertiary);
+}
+
+.themeCard:has(input:checked) {
+  border-color: var(--color-button-secondary);
+  background: var(--color-bg-tertiary);
 }
 
 .themeContent h3 {
   margin: 0 0 4px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--color-text-primary);
 }
 
 .themeContent p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .soundControls {
@@ -290,7 +301,7 @@
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-secondary);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -299,14 +310,14 @@
   width: 18px;
   height: 18px;
   cursor: not-allowed;
-  accent-color: #2196f3;
+  accent-color: var(--color-button-secondary);
 }
 
 .slider {
   width: 100%;
   max-width: 300px;
   margin-top: 8px;
-  accent-color: #2196f3;
+  accent-color: var(--color-button-secondary);
   cursor: not-allowed;
 }
 
@@ -315,27 +326,27 @@
   margin-left: 12px;
   font-size: 14px;
   font-weight: 500;
-  color: #666;
+  color: var(--color-text-secondary);
   min-width: 50px;
 }
 
 .statsPlaceholder {
   padding: 24px;
-  background: #f9f9f9;
+  background: var(--color-bg-tertiary);
   border-radius: 8px;
-  border: 1px dashed #ccc;
+  border: 1px dashed var(--color-border-secondary);
 }
 
 .statsPlaceholder p {
   margin: 0 0 12px 0;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .statsPlaceholder ul {
   margin: 0;
   padding-left: 24px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .statsPlaceholder li {
@@ -346,10 +357,10 @@
 .footer {
   padding: 32px 40px;
   text-align: center;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 14px;
-  border-top: 1px solid #e0e0e0;
-  background: #fff;
+  border-top: 1px solid var(--color-border-light);
+  background: var(--color-bg-primary);
 }
 
 .footer p {
@@ -357,7 +368,7 @@
 }
 
 .footer a {
-  color: #2196f3;
+  color: var(--color-button-secondary);
   text-decoration: none;
 }
 

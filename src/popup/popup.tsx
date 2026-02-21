@@ -10,6 +10,7 @@ import { StatusBar } from '../components/StatusBar';
 import { Controls } from '../components/Controls';
 import { EndGameModal } from '../components/EndGameModal';
 import { GameSetup } from '../components/GameSetup';
+import { useTheme } from '../hooks/useTheme';
 import { MessageType, GameStateResponse } from '../shared/message-types';
 import type { SerializedGameState, GameConfig, GameStatus, Cell } from '../types/game';
 import styles from './popup.module.css';
@@ -23,6 +24,9 @@ export function Popup() {
   const [showSetup, setShowSetup] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [boardScale, setBoardScale] = useState(1);
+  
+  // Initialize theme system
+  useTheme();
 
   /**
    * Send message to background service worker
@@ -75,23 +79,40 @@ export function Popup() {
 
   /**
    * Calculate board scale based on grid size and popup constraints
+   * Accounts for StatusBar, Controls, Header, and Footer space
    */
   const calculateBoardScale = useCallback((rows: number, cols: number) => {
-    // Popup constraints: 400px width, ~450px available for board
-    const maxWidth = 380; // Account for padding
-    const maxHeight = 420; // Leave space for statusbar, controls
+    // Popup window size constraints (Chrome extension fixed size)
+    const popupWidth = 400;
+    const popupHeight = 600;
     
-    const cellSize = 44; // Default cell size from CSS
+    // UI chrome space reservations (in pixels)
+    const headerHeight = 50;
+    const statusBarHeight = 80;
+    const controlsHeight = 80;
+    const footerHeight = 40;
+    const padding = 20; // Horizontal padding
+    
+    // Available space for the board
+    const maxWidth = popupWidth - (padding * 2);
+    const maxHeight = popupHeight - headerHeight - statusBarHeight - controlsHeight - footerHeight;
+    
+    // Cell dimensions from CSS
+    const cellSize = 44; // Minimum WCAG-compliant cell size
     const gap = 1; // Gap between cells
+    const borderPadding = 4; // Board border
     
-    const boardWidth = cols * cellSize + (cols - 1) * gap + 4; // +4 for border
-    const boardHeight = rows * cellSize + (rows - 1) * gap + 4;
+    // Calculate actual board dimensions
+    const boardWidth = cols * cellSize + (cols - 1) * gap + borderPadding;
+    const boardHeight = rows * cellSize + (rows - 1) * gap + borderPadding;
     
+    // Calculate scale factors for width and height
     const widthScale = maxWidth / boardWidth;
     const heightScale = maxHeight / boardHeight;
     
-    // Use the smaller scale to fit both dimensions
-    const scale = Math.min(1, widthScale, heightScale);
+    // Use the smaller scale to fit both dimensions, capped at 1.0 (no upscaling)
+    // and minimum of 0.4 (40%) to maintain usability
+    const scale = Math.max(0.4, Math.min(1, widthScale, heightScale));
     
     setBoardScale(scale);
   }, []);
@@ -281,7 +302,8 @@ export function Popup() {
         <GameSetup onStartGame={handleStartNewGame} />
         <div className={styles.footer}>
           <button onClick={handleOpenFullPage} className={styles.linkButton}>
-            Open Full Page →
+            <span>🔍</span>
+            <span>Open Full Page</span>
           </button>
         </div>
       </div>
@@ -358,7 +380,8 @@ export function Popup() {
       {shouldShowFullPageButton && (
         <div className={styles.footer}>
           <button onClick={handleOpenFullPage} className={styles.linkButton}>
-            Open Full Page for Better Experience →
+            <span>🔍</span>
+            <span>Open Full Page for Better Experience</span>
           </button>
         </div>
       )}

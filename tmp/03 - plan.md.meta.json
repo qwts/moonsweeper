@@ -1,0 +1,93 @@
+{
+  "filename": "03 - plan.md",
+  "file_stats": {
+    "total_lines": 748,
+    "byte_size": 34567
+  },
+  "blocks": [
+    {
+      "id": "0xA001",
+      "label": "Overview and Architecture Approach",
+      "lines": [8, 14],
+      "dependencies": ["Section 1 (Core Gameplay)", "Section 2 (Extension Infrastructure)", "chrome.storage.sync"],
+      "query_hints": ["section 3 overview", "ui ux accessibility", "architecture approach", "css variables", "responsive design"]
+    },
+    {
+      "id": "0xA002",
+      "label": "Current State Assessment",
+      "lines": [16, 38],
+      "dependencies": ["src/styles/Board.module.css", "src/components/Cell.tsx", "src/popup/popup.tsx"],
+      "query_hints": ["current state", "strengths weaknesses", "gaps analysis", "accessibility foundation", "keyboard navigation"]
+    },
+    {
+      "id": "0xA003",
+      "label": "Architecture Decisions",
+      "lines": [40, 50],
+      "dependencies": [],
+      "query_hints": ["architecture decisions", "css variables theming", "animation approach", "audio implementation", "reduced motion"]
+    },
+    {
+      "id": "0xA101",
+      "label": "Phase 1: Responsive Foundation",
+      "lines": [52, 119],
+      "dependencies": ["src/styles/Board.module.css", "src/components/Cell.tsx", "src/popup/popup.tsx", "src/components/GameSetup.tsx"],
+      "query_hints": ["responsive design", "mobile breakpoints", "touch targets", "wcag compliance", "popup scaling"]
+    },
+    {
+      "id": "0xA102",
+      "label": "Phase 2: Theming System",
+      "lines": [121, 224],
+      "dependencies": ["src/styles/index.css", "src/hooks/useTheme.ts", "src/options/options.tsx", "chrome.storage.sync"],
+      "query_hints": ["theming system", "css custom properties", "light dark colorblind", "wcag contrast", "theme provider"]
+    },
+    {
+      "id": "0xA103",
+      "label": "Phase 3: Keyboard and ARIA Polish",
+      "lines": [226, 333],
+      "dependencies": ["src/components/ShortcutsHelp.tsx", "src/components/EndGameModal.tsx", "src/components/StatusBar.tsx"],
+      "query_hints": ["keyboard navigation", "aria support", "screen reader", "focus trap", "live regions"]
+    },
+    {
+      "id": "0xA104",
+      "label": "Phase 4: Animations and Visual Feedback",
+      "lines": [335, 430],
+      "dependencies": ["src/styles/Board.module.css", "src/styles/Game.module.css", "src/hooks/useReducedMotion.ts"],
+      "query_hints": ["animations", "visual feedback", "cell reveal animation", "flag bounce", "reduced motion"]
+    },
+    {
+      "id": "0xA105",
+      "label": "Phase 5: Audio System",
+      "lines": [432, 559],
+      "dependencies": ["public/sounds/", "src/utils/audio.ts", "src/options/options.tsx", "src/contexts/GameContext.tsx"],
+      "query_hints": ["audio system", "sound effects", "audio manager", "mute control", "volume settings"]
+    },
+    {
+      "id": "0xA201",
+      "label": "Verification and Testing",
+      "lines": [561, 632],
+      "dependencies": ["Chrome DevTools", "VoiceOver", "NVDA", "vitest"],
+      "query_hints": ["testing checklist", "verification criteria", "responsive testing", "accessibility testing", "performance validation"]
+    },
+    {
+      "id": "0xA301",
+      "label": "Implementation Order and Dependencies",
+      "lines": [634, 661],
+      "dependencies": ["Section 2 infrastructure"],
+      "query_hints": ["implementation order", "phase sequence", "dependencies", "parallel work", "blocking dependencies"]
+    },
+    {
+      "id": "0xA302",
+      "label": "Risk Assessment and Mitigation",
+      "lines": [663, 703],
+      "dependencies": [],
+      "query_hints": ["risk assessment", "technical risks", "scope risks", "mitigation strategies", "autoplay policy"]
+    },
+    {
+      "id": "0xA401",
+      "label": "Success Criteria",
+      "lines": [705, 748],
+      "dependencies": ["Issue 03-01", "Issue 03-02", "Issue 03-03", "Issue 03-04", "Issue 03-05", "Issue 03-06"],
+      "query_hints": ["success criteria", "completion requirements", "acceptance criteria", "quality requirements", "wcag compliance"]
+    }
+  ]
+}
