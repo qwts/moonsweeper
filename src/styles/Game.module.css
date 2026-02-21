@@ -1,0 +1,251 @@
+/* Game Container */
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 90vw;
+}
+
+.gameTitle {
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Setup Screen */
+.setupPlaceholder {
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+}
+
+.setupPlaceholder h1 {
+  margin: 0 0 20px 0;
+  font-size: 2.5rem;
+  color: #667eea;
+}
+
+.helpText {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* Status Bar */
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Board Placeholder */
+.boardPlaceholder {
+  text-align: center;
+  padding: 40px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 2px dashed #ccc;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #667eea;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.controls button:hover {
+  background: #5568d3;
+}
+
+.controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* End Game Modal */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: all;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalTitle {
+  margin: 0 0 20px 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.modalTime {
+  font-size: 1.5rem;
+  color: #666;
+  margin: 0 0 30px 0;
+  font-weight: 600;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.modalButton {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #667eea;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.modalButton:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.modalButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gameContainer {
+    padding: 10px;
+  }
+
+  .gameBoard {
+    padding: 20px;
+  }
+
+  .gameTitle {
+    font-size: 1.5rem;
+  }
+
+  .statusBar {
+    font-size: 1rem;
+    padding: 12px 15px;
+  }
+
+  .modal {
+    padding: 30px 20px;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .modalTime {
+    font-size: 1.2rem;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+  }
+
+  .modalButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .gameTitle {
+    font-size: 1.3rem;
+  }
+
+  .statusBar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+}
+
+/* Accessibility - Focus Indicators */
+button:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 2px;
+}

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "MindSweeper",
+  "version": "0.2.0",
+  "description": "A modern Minesweeper game as a Chrome extension with undo/redo, timer, and persistent game state",
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "action": {
+    "default_title": "MindSweeper - Click to play",
+    "default_popup": "src/popup/popup.html"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "public/icon16.png",
+    "48": "public/icon48.png",
+    "128": "public/icon128.png"
+  }
+}
+

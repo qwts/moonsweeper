@@ -1,0 +1,26 @@
+# Copilot Instructions for ISSUE_ORDER.md
+
+These guidelines are intended for AI agents (including GitHub Copilot) working in this repository. They describe how to interpret and interact with the `ISSUE_ORDER.md` file.
+
+## Purpose of ISSUE_ORDER.md
+- Contains a prioritized list of feature/issue documents for a project.
+- Each line references a markdown file under `tmp/` describing a single issue or requirement.
+- The order in the file represents the sequence in which issues should be addressed or considered.
+
+## Agent Responsibilities
+1. **Respect Ordering:** Always acknowledge and follow the order of entries when planning work or suggesting changes.
+2. **Avoid Reordering:** Do not alter the sequence of items in the file unless explicitly instructed by the user.
+3. **Referencing Issues:** When generating code, documentation, or responses, cross-reference these issue files by their names and paths as needed.
+4. **Contextual Awareness:** Treat each referenced markdown as a source of requirements or guidelines. Agents may open or read them for details to inform their actions.
+5. **Updates and Additions:** If new issues are added, append them to the bottom of the file and maintain the list format.
+6. **Validation:** When asked to validate, check for missing files or incorrect paths and report inconsistencies.
+
+## Response Behaviour
+- When responding to tasks, consider the user's current position in the list (e.g., focus on early items if the user is working incrementally).
+- Use the file contents to infer project priorities and constraints.
+
+## Example Usage
+- "According to ISSUE_ORDER.md, the next issue is `tmp/01-01-resizable-grid-random-mine-placement.md` — let's start there." 
+- "Ensure changes align with the issue order; do not skip ahead without confirmation."
+
+This file is not automatically modified by any tool; maintain it manually as project priorities evolve.
