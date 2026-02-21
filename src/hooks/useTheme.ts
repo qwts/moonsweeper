@@ -10,6 +10,7 @@
  * Supported themes: 'light', 'dark', 'colorblind', 'system'
  */
 import { useState, useEffect, useCallback } from 'react';
+import { syncStorage } from '../shared/chrome-storage';
 
 export type Theme = 'light' | 'dark' | 'colorblind';
 export type ThemeSetting = Theme | 'system';
@@ -46,8 +47,9 @@ function applyTheme(theme: Theme): void {
   // Set data-theme attribute on root element
   document.documentElement.setAttribute('data-theme', theme);
   
-  // Also set as class for compatibility (optional)
-  document.documentElement.className = `theme-${theme}`;
+  // Also set as class for compatibility (optional) - remove old theme classes
+  document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-colorblind');
+  document.documentElement.classList.add(`theme-${theme}`);
 }
 
 /**
@@ -65,8 +67,7 @@ export function useTheme(): UseThemeReturn {
   useEffect(() => {
     const loadTheme = async () => {
       try {
-        const result = await chrome.storage.sync.get('theme');
-        const savedTheme = result.theme as ThemeSetting | undefined;
+        const savedTheme = await syncStorage.get('theme') as ThemeSetting | undefined;
         
         if (savedTheme && ['light', 'dark', 'colorblind', 'system'].includes(savedTheme)) {
           setThemeSetting(savedTheme);
@@ -114,11 +115,15 @@ export function useTheme(): UseThemeReturn {
       }
     };
 
-    chrome.storage.onChanged.addListener(handleStorageChange);
+    if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
+      chrome.storage.onChanged.addListener(handleStorageChange);
 
-    return () => {
-      chrome.storage.onChanged.removeListener(handleStorageChange);
-    };
+      return () => {
+        chrome.storage.onChanged.removeListener(handleStorageChange);
+      };
+    }
+
+    return undefined;
   }, []);
 
   // Apply theme whenever it changes
@@ -138,12 +143,12 @@ export function useTheme(): UseThemeReturn {
       setThemeSetting(newTheme);
 
       // Persist to storage (will sync across extension contexts)
-      await chrome.storage.sync.set({ theme: newTheme });
+      await syncStorage.set('theme', newTheme);
     } catch (error) {
       console.error('Failed to save theme to storage:', error);
       // Revert on error
-      const result = await chrome.storage.sync.get('theme');
-      setThemeSetting((result.theme as ThemeSetting) || 'system');
+      const fallbackTheme = await syncStorage.get('theme') as ThemeSetting | undefined;
+      setThemeSetting(fallbackTheme || 'system');
     }
   }, []);
 

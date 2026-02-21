@@ -34,6 +34,9 @@ export const Cell: React.FC<CellProps> = ({
 }) => {
   const [isLongPressing, setIsLongPressing] = useState(false);
   const longPressTimerRef = useRef<number | null>(null);
+  const [justFlagged, setJustFlagged] = useState(false);
+  const prevFlaggedRef = useRef(cell.state === 'flagged');
+  const chordTriggeredRef = useRef(false);
 
   // Cleanup long-press timer on unmount
   useEffect(() => {
@@ -44,19 +47,35 @@ export const Cell: React.FC<CellProps> = ({
     };
   }, []);
 
+  // Track flag state changes for animation
+  useEffect(() => {
+    const isFlagged = cell.state === 'flagged';
+    const wasFlagged = prevFlaggedRef.current;
+    
+    // Only animate when transitioning from not-flagged to flagged
+    if (isFlagged && !wasFlagged) {
+      setJustFlagged(true);
+      // Remove the animation class after animation completes
+      const timer = setTimeout(() => setJustFlagged(false), 200);
+      return () => clearTimeout(timer);
+    }
+    
+    prevFlaggedRef.current = isFlagged;
+  }, [cell.state]);
+
   // Handle click (reveal)
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (disabled) return;
 
-    // Middle-click or Ctrl+click triggers chord
-    if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
-      onChord(row, col);
+    // Chord already handled in onMouseDown; ignore synthetic follow-up click
+    if (chordTriggeredRef.current) {
+      chordTriggeredRef.current = false;
       return;
     }
 
     // Left-click reveals
-    if (e.button === 0 && !e.ctrlKey) {
+    if (e.button === 0) {
       onClick(row, col);
     }
   };
@@ -65,13 +84,26 @@ export const Cell: React.FC<CellProps> = ({
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     if (disabled) return;
+
+    // Chord already handled in onMouseDown; suppress context-menu flag toggle
+    if (chordTriggeredRef.current) {
+      chordTriggeredRef.current = false;
+      return;
+    }
+
     onContextMenu(row, col);
   };
 
-  // Handle mouse down for detecting middle-click and future chord detection
+  // Handle mouse down for chord detection (middle-click or Ctrl/Cmd+click)
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 1) {
-      e.preventDefault(); // Prevent scroll on middle-click
+    if (disabled) return;
+
+    const isChordGesture = e.button === 1 || (e.button === 0 && (e.ctrlKey || e.metaKey));
+
+    if (isChordGesture) {
+      e.preventDefault();
+      chordTriggeredRef.current = true;
+      onChord(row, col);
     }
   };
 
@@ -124,6 +156,10 @@ export const Cell: React.FC<CellProps> = ({
       }
     } else if (cell.state === 'flagged') {
       classes.push('cell-flagged');
+      // Add animation class only when flag is just added
+      if (justFlagged) {
+        classes.push('flag-added');
+      }
     }
 
     if (isFocused) {

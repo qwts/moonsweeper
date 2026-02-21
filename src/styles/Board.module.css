@@ -60,6 +60,22 @@
   background-color: var(--color-cell-revealed);
   cursor: default;
   box-shadow: inset 0 0 1px var(--color-cell-shadow-dark);
+  /* Cell reveal animation with scale pop effect */
+  animation: cellReveal 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cellReveal {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Flagged cell state */
@@ -72,6 +88,23 @@
   background-size: 4px 4px;
   box-shadow: inset -1px -1px 0 var(--color-cell-shadow-dark),
               inset 1px 1px 0 var(--color-cell-shadow-light);
+}
+
+/* Flag bounce animation - only plays when flag is added */
+:global(.cell-flagged.flag-added) {
+  animation: flagBounce 0.2s ease-out;
+}
+
+@keyframes flagBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Mine cell */
@@ -152,14 +185,14 @@
 /* Responsive breakpoints */
 @media (max-width: 768px) {
   :global(.cell) {
-    min-width: 36px;
-    min-height: 36px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 16px;
   }
 
   .statusBar {
     font-size: 16px;
-    padding: 12px 16px;
+    padding: 14px 18px;
   }
 
   .statusValue {
@@ -175,8 +208,8 @@
 
 @media (max-width: 480px) {
   :global(.cell) {
-    min-width: 36px;
-    min-height: 36px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 14px;
   }
 
@@ -186,9 +219,10 @@
 
   .statusBar {
     font-size: 14px;
-    padding: 10px 12px;
+    padding: 12px 16px;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    min-height: 80px;
   }
 
   .statusValue {
@@ -199,9 +233,13 @@
 
 @media (max-width: 375px) {
   :global(.cell) {
-    min-width: 32px;
-    min-height: 32px;
+    /* Visual cell size 32px but maintain touch target with padding */
+    width: 32px;
+    height: 32px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 13px;
+    padding: 6px;
   }
 
   .board {
@@ -211,7 +249,8 @@
 
   .statusBar {
     font-size: 13px;
-    padding: 8px 10px;
+    padding: 10px 14px;
+    min-height: 76px;
   }
 
   .statusValue {
@@ -222,9 +261,13 @@
 
 @media (max-width: 320px) {
   :global(.cell) {
-    min-width: 28px;
-    min-height: 28px;
+    /* Visual cell size 28px but maintain touch target with padding */
+    width: 28px;
+    height: 28px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 12px;
+    padding: 8px;
   }
 
   .board {
@@ -234,7 +277,8 @@
 
   .statusBar {
     font-size: 12px;
-    padding: 6px 8px;
+    padding: 8px 12px;
+    min-height: 72px;
   }
 
   .statusValue {
@@ -268,4 +312,17 @@
   :global(.cell-focused) {
     outline-width: 4px;
   }
+}
+
+/* Screen reader only content */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

@@ -4,6 +4,7 @@
 
 .popupContainer {
   width: 400px;
+  max-width: 100%;
   max-height: 600px;
   display: flex;
   flex-direction: column;
@@ -104,24 +105,26 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border-focus);
-  color: var(--color-border-focus);
+  background-color: var(--color-border-focus);
+  border: 2px solid var(--color-border-focus);
+  color: white;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 18px;
+  border-radius: 6px;
   text-decoration: none;
   transition: all 0.2s;
-  min-height: 36px;
+  min-height: 44px;
+  box-shadow: var(--shadow-small);
 }
 
 .linkButton:hover {
-  background-color: var(--color-border-focus);
-  color: var(--color-text-on-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-small);
+  background-color: var(--color-button-primary-hover);
+  border-color: var(--color-button-primary-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .linkButton:active {

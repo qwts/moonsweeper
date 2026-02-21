@@ -62,13 +62,13 @@
 /* Responsive design for smaller screens */
 @media (max-width: 480px) {
   .controls {
-    gap: 8px;
-    padding: 12px;
+    gap: 10px;
+    padding: 14px;
   }
 
   .controlButton {
-    padding: 12px 20px;
-    min-width: 90px;
+    padding: 14px 22px;
+    min-width: 100px;
     min-height: 48px;
     font-size: 14px;
   }
@@ -79,6 +79,37 @@
 
   .label {
     font-size: 12px;
+  }
+}
+
+/* Additional mobile breakpoints for touch targets */
+@media (max-width: 375px) {
+  .controls {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .controlButton {
+    padding: 12px 18px;
+    min-width: 95px;
+    min-height: 48px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 320px) {
+  .controls {
+    gap: 6px;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+
+  .controlButton {
+    padding: 12px 16px;
+    min-width: 90px;
+    min-height: 48px;
+    font-size: 12px;
+    flex: 1 1 auto;
   }
 }
 

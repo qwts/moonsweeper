@@ -14,6 +14,7 @@ import { SyncSettings } from '../shared/chrome-storage';
 import { DIFFICULTY_PRESETS, GRID_CONSTRAINTS } from '../shared/constants';
 import { validateCustomConfig } from '../core/presets';
 import { useTheme, type ThemeSetting } from '../hooks/useTheme';
+import { audioManager } from '../utils/audio';
 import styles from './options.module.css';
 
 type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'custom';
@@ -24,6 +25,7 @@ export const Options: React.FC = () => {
     theme: 'light',
     soundEnabled: false,
     soundVolume: 0.5,
+    animationsEnabled: true,
   });
   const [customConfig, setCustomConfig] = useState({
     rows: 16,
@@ -34,9 +36,17 @@ export const Options: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [testingSound, setTestingSound] = useState(false);
   
   // Initialize theme system with live preview
   const { themeSetting, setTheme } = useTheme();
+
+  // Initialize audio manager
+  useEffect(() => {
+    audioManager.preload().catch((error) => {
+      console.error('Failed to preload audio:', error);
+    });
+  }, []);
 
   // Load settings from background on mount
   useEffect(() => {
@@ -47,10 +57,12 @@ export const Options: React.FC = () => {
           timestamp: Date.now(),
         });
 
-        if (response.success && response.settings) {
-          setSettings(response.settings);
-          if (response.settings.customConfig) {
-            setCustomConfig(response.settings.customConfig);
+        const loadedSettings = (response?.data ?? response?.settings) as SyncSettings | undefined;
+
+        if (response?.success && loadedSettings) {
+          setSettings(loadedSettings);
+          if (loadedSettings.customConfig) {
+            setCustomConfig(loadedSettings.customConfig);
           }
         }
       } catch (err) {
@@ -144,13 +156,29 @@ export const Options: React.FC = () => {
   const handleSoundEnabledChange = async (enabled: boolean) => {
     const newSettings = { ...settings, soundEnabled: enabled };
     setSettings(newSettings);
+    audioManager.setMuted(!enabled); // Update audio manager immediately
     await saveSettings({ soundEnabled: enabled });
   };
 
   const handleSoundVolumeChange = async (volume: number) => {
     const newSettings = { ...settings, soundVolume: volume };
     setSettings(newSettings);
+    audioManager.setVolume(volume); // Update audio manager immediately
     await saveSettings({ soundVolume: volume });
+  };
+
+  // Handle animations settings change
+  const handleAnimationsEnabledChange = async (enabled: boolean) => {
+    const newSettings = { ...settings, animationsEnabled: enabled };
+    setSettings(newSettings);
+    await saveSettings({ animationsEnabled: enabled });
+  };
+
+  // Test sound playback
+  const handleTestSound = () => {
+    setTestingSound(true);
+    audioManager.play('reveal');
+    setTimeout(() => setTestingSound(false), 500);
   };
 
   // Validate custom config
@@ -365,7 +393,6 @@ export const Options: React.FC = () => {
           <h2>Sound</h2>
           <p className={styles.description}>
             Configure sound effects and volume.
-            <span className={styles.comingSoon}>Coming soon in Section 3</span>
           </p>
 
           <div className={styles.soundControls}>
@@ -374,7 +401,6 @@ export const Options: React.FC = () => {
                 type="checkbox"
                 checked={settings.soundEnabled || false}
                 onChange={(e) => handleSoundEnabledChange(e.target.checked)}
-                disabled
               />
               <span>Enable sound effects</span>
             </label>
@@ -398,6 +424,36 @@ export const Options: React.FC = () => {
                 {Math.round((settings.soundVolume || 0.5) * 100)}%
               </span>
             </div>
+
+            <button
+              onClick={handleTestSound}
+              disabled={!settings.soundEnabled || testingSound}
+              className={styles.testButton}
+            >
+              {testingSound ? '🔊 Playing...' : '🎵 Test Sound'}
+            </button>
+          </div>
+        </section>
+
+        {/* Animation Settings */}
+        <section className={styles.section}>
+          <h2>Animations</h2>
+          <p className={styles.description}>
+            Control visual animations and transitions. This setting overrides system preferences.
+          </p>
+
+          <div className={styles.soundControls}>
+            <label className={styles.checkbox}>
+              <input
+                type="checkbox"
+                checked={settings.animationsEnabled !== false}
+                onChange={(e) => handleAnimationsEnabledChange(e.target.checked)}
+              />
+              <span>Enable animations</span>
+            </label>
+            <p className={styles.helpText}>
+              Note: If your system has "Reduce Motion" enabled, animations will be disabled regardless of this setting.
+            </p>
           </div>
         </section>
 

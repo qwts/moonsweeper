@@ -247,6 +247,7 @@
 
 .applyButton:disabled {
   background: var(--color-button-disabled);
+  color: var(--color-button-text-disabled);
   cursor: not-allowed;
 }
 
@@ -328,6 +329,35 @@
   font-weight: 500;
   color: var(--color-text-secondary);
   min-width: 50px;
+}
+
+.testButton {
+  padding: 10px 20px;
+  background: var(--color-button-secondary);
+  color: var(--color-text-on-dark);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.testButton:hover:not(:disabled) {
+  background: var(--color-button-secondary-hover);
+}
+
+.testButton:disabled {
+  background: var(--color-button-disabled);
+  color: var(--color-button-text-disabled);
+  cursor: not-allowed;
+}
+
+.helpText {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
 }
 
 .statsPlaceholder {

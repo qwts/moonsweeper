@@ -158,6 +158,7 @@ export const DEFAULT_SETTINGS = {
   theme: 'light' as const,
   soundEnabled: false,
   soundVolume: 0.5,
+  animationsEnabled: true,
 } as const;
 
 /**

@@ -28,27 +28,59 @@ export const GameSetup: React.FC<GameSetupProps> = ({
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        const { rows, cols, mines } = JSON.parse(saved);
-        setCustomRows(rows);
-        setCustomCols(cols);
-        setCustomMines(mines);
+        const parsed = JSON.parse(saved) as {
+          mode?: 'preset' | 'custom';
+          selectedDifficulty?: DifficultyLevel;
+          rows?: number;
+          cols?: number;
+          mines?: number;
+        };
+
+        if (parsed.mode === 'preset' || parsed.mode === 'custom') {
+          setMode(parsed.mode);
+        }
+
+        if (
+          parsed.selectedDifficulty === 'easy' ||
+          parsed.selectedDifficulty === 'medium' ||
+          parsed.selectedDifficulty === 'hard' ||
+          parsed.selectedDifficulty === 'custom'
+        ) {
+          setSelectedDifficulty(parsed.selectedDifficulty);
+        }
+
+        if (typeof parsed.rows === 'number') {
+          setCustomRows(parsed.rows);
+        }
+        if (typeof parsed.cols === 'number') {
+          setCustomCols(parsed.cols);
+        }
+        if (typeof parsed.mines === 'number') {
+          setCustomMines(parsed.mines);
+        }
       }
     } catch (error) {
       console.error('Failed to load saved custom config:', error);
     }
   }, []);
 
-  // Save custom config to localStorage whenever it changes
+  // Save setup selections to localStorage whenever they change
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ rows: customRows, cols: customCols, mines: customMines })
+        JSON.stringify({
+          mode,
+          selectedDifficulty,
+          rows: customRows,
+          cols: customCols,
+          mines: customMines,
+        })
       );
     } catch (error) {
       console.error('Failed to save custom config:', error);
     }
-  }, [customRows, customCols, customMines]);
+  }, [mode, selectedDifficulty, customRows, customCols, customMines]);
 
   const validation = mode === 'custom' 
     ? validateCustomConfig(customRows, customCols, customMines)
@@ -202,7 +234,8 @@ export const GameSetup: React.FC<GameSetupProps> = ({
       <style>{`
         .game-setup {
           padding: 20px;
-          background: #f5f5f5;
+          background: var(--color-bg-primary);
+          color: var(--color-text-primary);
           border-radius: 8px;
           max-width: 400px;
           margin: 0 auto;
@@ -216,19 +249,19 @@ export const GameSetup: React.FC<GameSetupProps> = ({
           margin-top: 0;
           margin-bottom: 20px;
           font-size: 24px;
-          color: #333;
+          color: var(--color-text-primary);
         }
 
         .current-config h3 {
           margin: 0 0 10px 0;
           font-size: 18px;
-          color: #333;
+          color: var(--color-text-primary);
         }
 
         .current-config p {
           margin: 0 0 15px 0;
           font-size: 14px;
-          color: #666;
+          color: var(--color-text-secondary);
         }
 
         .mode-selector {
@@ -242,6 +275,7 @@ export const GameSetup: React.FC<GameSetupProps> = ({
           align-items: center;
           gap: 8px;
           cursor: pointer;
+          color: var(--color-text-primary);
         }
 
         .preset-selector {
@@ -258,11 +292,12 @@ export const GameSetup: React.FC<GameSetupProps> = ({
           cursor: pointer;
           padding: 8px;
           border-radius: 4px;
+          color: var(--color-text-primary);
           transition: background-color 0.2s;
         }
 
         .preset-selector label:hover {
-          background-color: #e0e0e0;
+          background-color: var(--color-bg-tertiary);
         }
 
         .custom-config {
@@ -280,13 +315,15 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
         .input-group label {
           font-weight: 500;
-          color: #333;
+          color: var(--color-text-primary);
         }
 
         .input-group input[type="number"] {
           width: 100px;
           padding: 10px 12px;
-          border: 1px solid #ccc;
+          border: 1px solid var(--color-border-secondary);
+          background-color: var(--color-bg-primary);
+          color: var(--color-text-primary);
           border-radius: 4px;
           font-size: 14px;
           min-height: 44px;
@@ -295,24 +332,24 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
         .input-group input[type="number"]:focus {
           outline: none;
-          border-color: #4CAF50;
+          border-color: var(--color-border-focus);
         }
 
         .validation-error {
-          color: #d32f2f;
+          color: var(--color-text-primary);
           font-size: 14px;
           padding: 10px;
-          background-color: #ffebee;
+          background-color: var(--color-bg-secondary);
           border-radius: 4px;
-          border-left: 3px solid #d32f2f;
+          border-left: 3px solid var(--color-cell-mine);
         }
 
         .start-game-button,
         .new-game-button {
           width: 100%;
           padding: 12px 24px;
-          background-color: #4CAF50;
-          color: white;
+          background-color: var(--color-button-primary);
+          color: var(--color-text-on-dark);
           border: none;
           border-radius: 4px;
           font-size: 16px;
@@ -324,21 +361,22 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
         .start-game-button:hover:not(:disabled),
         .new-game-button:hover {
-          background-color: #45a049;
+          background-color: var(--color-button-primary-hover);
         }
 
         .start-game-button:disabled {
-          background-color: #cccccc;
+          background-color: var(--color-button-disabled);
+          color: var(--color-button-text-disabled);
           cursor: not-allowed;
           opacity: 0.6;
         }
 
         .new-game-button {
-          background-color: #2196F3;
+          background-color: var(--color-button-secondary);
         }
 
         .new-game-button:hover {
-          background-color: #1976D2;
+          background-color: var(--color-button-secondary-hover);
         }
 
         /* Responsive design for mobile */
@@ -350,31 +388,50 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
           .game-setup h2 {
             font-size: 20px;
+            margin-bottom: 16px;
           }
 
           .mode-selector {
             flex-direction: column;
             gap: 12px;
-            align-items: flex-start;
+            align-items: stretch;
+          }
+
+          .preset-selector {
+            gap: 12px;
           }
 
           .preset-selector label,
           .mode-selector label {
-            padding: 10px;
-            font-size: 14px;
-            min-height: 44px;
+            padding: 12px 14px;
+            font-size: 15px;
+            min-height: 48px;
             display: flex;
             align-items: center;
+            width: 100%;
+            box-sizing: border-box;
           }
 
           .input-group {
             flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
+            align-items: stretch;
+            gap: 8px;
+          }
+
+          .input-group label {
+            font-size: 14px;
           }
 
           .input-group input[type="number"] {
             width: 100%;
+            font-size: 16px;
+            padding: 12px;
+          }
+
+          .start-game-button,
+          .new-game-button {
+            font-size: 17px;
+            min-height: 52px;
           }
         }
 
@@ -386,14 +443,49 @@ export const GameSetup: React.FC<GameSetupProps> = ({
 
           .game-setup h2 {
             font-size: 18px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
           }
 
           .mode-selector,
           .preset-selector,
           .custom-config {
             gap: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+          }
+
+          .preset-selector label,
+          .mode-selector label {
+            font-size: 14px;
+            padding: 10px 12px;
+          }
+        }
+
+        /* Extra mobile breakpoints for better touch targets */
+        @media (max-width: 375px) {
+          .game-setup {
+            padding: 10px;
+          }
+
+          .preset-selector label,
+          .mode-selector label {
+            min-height: 44px;
+            font-size: 13px;
+          }
+        }
+
+        @media (max-width: 320px) {
+          .game-setup {
+            padding: 8px;
+          }
+
+          .game-setup h2 {
+            font-size: 16px;
+          }
+
+          .preset-selector label,
+          .mode-selector label {
+            padding: 10px;
+            font-size: 12px;
           }
         }
       `}</style>

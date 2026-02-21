@@ -29,6 +29,8 @@ declare const styles: {
   readonly checkbox: string;
   readonly slider: string;
   readonly volumeDisplay: string;
+  readonly testButton: string;
+  readonly helpText: string;
   readonly statsPlaceholder: string;
   readonly footer: string;
 };

@@ -80,27 +80,29 @@ export function Popup() {
   /**
    * Calculate board scale based on grid size and popup constraints
    * Accounts for StatusBar, Controls, Header, and Footer space
+   * Enhanced with max-width constraints and refined height calculations
    */
   const calculateBoardScale = useCallback((rows: number, cols: number) => {
     // Popup window size constraints (Chrome extension fixed size)
     const popupWidth = 400;
     const popupHeight = 600;
     
-    // UI chrome space reservations (in pixels)
-    const headerHeight = 50;
-    const statusBarHeight = 80;
-    const controlsHeight = 80;
-    const footerHeight = 40;
-    const padding = 20; // Horizontal padding
+    // UI chrome space reservations (in pixels) - refined for responsive components
+    const headerHeight = 52;
+    const statusBarHeight = 90; // Increased to account for responsive padding
+    const controlsHeight = 90; // Increased to account for responsive padding
+    const footerHeight = 45;
+    const padding = 24; // Horizontal padding
+    const verticalMargins = 16; // Additional vertical spacing between sections
     
     // Available space for the board
-    const maxWidth = popupWidth - (padding * 2);
-    const maxHeight = popupHeight - headerHeight - statusBarHeight - controlsHeight - footerHeight;
+    const maxWidth = Math.min(popupWidth - (padding * 2), 360); // Max-width constraint
+    const maxHeight = popupHeight - headerHeight - statusBarHeight - controlsHeight - footerHeight - verticalMargins;
     
-    // Cell dimensions from CSS
+    // Cell dimensions from CSS (WCAG-compliant minimum)
     const cellSize = 44; // Minimum WCAG-compliant cell size
     const gap = 1; // Gap between cells
-    const borderPadding = 4; // Board border
+    const borderPadding = 4; // Board border and padding
     
     // Calculate actual board dimensions
     const boardWidth = cols * cellSize + (cols - 1) * gap + borderPadding;
@@ -111,8 +113,8 @@ export function Popup() {
     const heightScale = maxHeight / boardHeight;
     
     // Use the smaller scale to fit both dimensions, capped at 1.0 (no upscaling)
-    // and minimum of 0.4 (40%) to maintain usability
-    const scale = Math.max(0.4, Math.min(1, widthScale, heightScale));
+    // and minimum of 0.5 (50%) to maintain usability
+    const scale = Math.max(0.5, Math.min(1, widthScale, heightScale));
     
     setBoardScale(scale);
   }, []);
@@ -339,42 +341,46 @@ export function Popup() {
         </button>
       </div>
 
-      {/* Status Bar */}
-      <StatusBar
-        elapsedTime={elapsedTime}
-        totalMines={totalMines}
-        flaggedCount={flaggedCount}
-      />
-
-      {/* Game Board (scaled if necessary) */}
-      <div 
-        className={styles.boardContainer}
-        style={needsScaling ? {
-          transform: `scale(${boardScale})`,
-          transformOrigin: 'top center',
-        } : undefined}
-      >
-        <Board
-          cells={cells}
-          onReveal={handleRevealCell}
-          onFlag={handleToggleFlag}
-          onChord={handleChord}
-          disabled={status === 'won' || status === 'lost'}
+      <main role="main" aria-label="Game board">
+        {/* Status Bar */}
+        <StatusBar
+          elapsedTime={elapsedTime}
+          totalMines={totalMines}
+          flaggedCount={flaggedCount}
         />
-      </div>
+
+        {/* Game Board (scaled if necessary) */}
+        <div 
+          className={styles.boardContainer}
+          style={needsScaling ? {
+            transform: `scale(${boardScale})`,
+            transformOrigin: 'top center',
+          } : undefined}
+        >
+          <Board
+            cells={cells}
+            onReveal={handleRevealCell}
+            onFlag={handleToggleFlag}
+            onChord={handleChord}
+            disabled={status === 'won' || status === 'lost'}
+          />
+        </div>
+      </main>
 
       {/* Controls */}
-      <div className={styles.controlsSection}>
-        <button onClick={handleNewGame} className={styles.actionButton}>
-          New Game
-        </button>
-        <Controls
-          onUndo={handleUndo}
-          onRedo={handleRedo}
-          canUndo={gameState.status === 'playing'}
-          canRedo={false}
-        />
-      </div>
+      <nav aria-label="Game controls">
+        <div className={styles.controlsSection}>
+          <button onClick={handleNewGame} className={styles.actionButton}>
+            New Game
+          </button>
+          <Controls
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            canUndo={gameState.status === 'playing'}
+            canRedo={false}
+          />
+        </div>
+      </nav>
 
       {/* Full page link for large boards */}
       {shouldShowFullPageButton && (

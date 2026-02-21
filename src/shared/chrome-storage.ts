@@ -28,9 +28,10 @@ export interface SyncSettings {
     cols: number;
     mines: number;
   };
-  theme?: 'light' | 'dark' | 'colorblind';
+  theme?: 'light' | 'dark' | 'colorblind' | 'system';
   soundEnabled?: boolean;
   soundVolume?: number;
+  animationsEnabled?: boolean;
 }
 
 /**

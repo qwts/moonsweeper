@@ -8,6 +8,8 @@ import {
   saveGameToHistory,
   updateStatistics 
 } from '../core/storage';
+import { audioManager } from '../utils/audio';
+import { syncStorage } from '../shared/chrome-storage';
 
 /**
  * Interface for the game context value
@@ -59,10 +61,61 @@ export function GameProvider({ children }: GameProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [, forceUpdate] = useState({});
   const lastSavedStatus = useRef<GameStatus | null>(null);
+  const audioInitialized = useRef(false);
   
   // Force a re-render to update UI with latest game state
   const triggerUpdate = useCallback(() => {
     forceUpdate({});
+  }, []);
+
+  // Initialize audio system on mount
+  useEffect(() => {
+    if (audioInitialized.current) {
+      return;
+    }
+
+    const initAudio = async () => {
+      try {
+        // Preload audio files
+        await audioManager.preload();
+
+        // Load audio settings from chrome.storage.sync
+        const soundEnabled = await syncStorage.get('soundEnabled');
+        const soundVolume = await syncStorage.get('soundVolume');
+
+        audioManager.setMuted(!(soundEnabled ?? false));
+        audioManager.setVolume(soundVolume ?? 0.5);
+
+        audioInitialized.current = true;
+      } catch (error) {
+        console.error('Failed to initialize audio:', error);
+      }
+    };
+
+    initAudio();
+  }, []);
+
+  // Listen for storage changes to sync audio settings across contexts
+  useEffect(() => {
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes.soundEnabled) {
+        audioManager.setMuted(!changes.soundEnabled.newValue);
+      }
+      if (changes.soundVolume) {
+        const newVolume = changes.soundVolume.newValue;
+        if (typeof newVolume === 'number') {
+          audioManager.setVolume(newVolume);
+        }
+      }
+    };
+
+    // Only set up listener in extension environment
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.onChanged.addListener(handleStorageChange);
+      return () => {
+        chrome.storage.onChanged.removeListener(handleStorageChange);
+      };
+    }
   }, []);
 
   // Load saved game state on mount
@@ -189,7 +242,23 @@ export function GameProvider({ children }: GameProviderProps) {
    */
   const revealCell = useCallback((row: number, col: number) => {
     if (!gameState) return;
+    
+    const prevStatus = gameState.status;
     gameState.revealCell(row, col);
+    const newStatus = gameState.status;
+    
+    // Play reveal sound for normal reveals
+    if (prevStatus === 'playing') {
+      audioManager.play('reveal');
+    }
+    
+    // Play win/loss sounds for game end
+    if (prevStatus === 'playing' && newStatus === 'won') {
+      audioManager.play('win');
+    } else if (prevStatus === 'playing' && newStatus === 'lost') {
+      audioManager.play('loss');
+    }
+    
     triggerUpdate();
   }, [gameState, triggerUpdate]);
 
@@ -199,6 +268,10 @@ export function GameProvider({ children }: GameProviderProps) {
   const toggleFlag = useCallback((row: number, col: number) => {
     if (!gameState) return;
     gameState.toggleFlag(row, col);
+    
+    // Play flag sound
+    audioManager.play('flag');
+    
     triggerUpdate();
   }, [gameState, triggerUpdate]);
 
