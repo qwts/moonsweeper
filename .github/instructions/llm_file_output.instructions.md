@@ -1,5 +1,5 @@
 ---
-applyTo: "{docs/**,data_outputs/**,*.md}"
+applyTo: "**/*.md"
 description: "Rules for generating primary files and metadata sidecars for optimized LLM retrieval."
 ---
 

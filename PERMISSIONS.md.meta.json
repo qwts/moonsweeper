@@ -1,0 +1,44 @@
+{
+  "filename": "PERMISSIONS.md",
+  "file_stats": {
+    "total_lines": 127,
+    "byte_size": 5234
+  },
+  "blocks": [
+    {
+      "id": "0x1001",
+      "label": "Storage Permission Documentation",
+      "lines": [5, 32],
+      "dependencies": ["chrome.storage.local", "chrome.storage.sync", "manifest.json"],
+      "query_hints": ["storage permission", "game state", "persistence", "sync settings", "chrome storage"]
+    },
+    {
+      "id": "0x1002",
+      "label": "Alarms Permission Documentation",
+      "lines": [34, 58],
+      "dependencies": ["chrome.alarms", "service worker", "timer", "background"],
+      "query_hints": ["alarms permission", "timer", "background tasks", "service worker", "auto-save"]
+    },
+    {
+      "id": "0x1003",
+      "label": "Permissions Not Requested",
+      "lines": [60, 88],
+      "dependencies": [],
+      "query_hints": ["notifications", "tabs", "host permissions", "content scripts", "permissions denied"]
+    },
+    {
+      "id": "0x1004",
+      "label": "Offline Support Documentation",
+      "lines": [90, 111],
+      "dependencies": ["chrome.storage", "service worker"],
+      "query_hints": ["offline support", "network independence", "chrome sync", "testing offline"]
+    },
+    {
+      "id": "0x1005",
+      "label": "Permission Review Checklist",
+      "lines": [113, 127],
+      "dependencies": [],
+      "query_hints": ["permission review", "audit checklist", "manifest v3", "privacy", "security"]
+    }
+  ]
+}

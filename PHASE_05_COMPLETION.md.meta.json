@@ -1,0 +1,58 @@
+{
+  "filename": "PHASE_05_COMPLETION.md",
+  "file_stats": {
+    "total_lines": 303,
+    "byte_size": 10245
+  },
+  "blocks": [
+    {
+      "id": "0x3001",
+      "label": "Phase 05 Summary",
+      "lines": [10, 35],
+      "dependencies": ["PERMISSIONS.md", "PHASE_05_TESTING.md", "manifest.json"],
+      "query_hints": ["phase 05 summary", "objectives completed", "tasks 15-17", "permissions testing"]
+    },
+    {
+      "id": "0x3002",
+      "label": "Deliverables Created",
+      "lines": [39, 81],
+      "dependencies": ["PERMISSIONS.md", "PHASE_05_TESTING.md", "scripts"],
+      "query_hints": ["deliverables", "documentation files", "test scripts", "automated testing"]
+    },
+    {
+      "id": "0x3003",
+      "label": "Build Validation Results",
+      "lines": [85, 128],
+      "dependencies": ["dist/", "manifest.json", "npm build"],
+      "query_hints": ["build validation", "manifest v3", "build artifacts", "permissions audit"]
+    },
+    {
+      "id": "0x3004",
+      "label": "Testing Status Summary",
+      "lines": [132, 164],
+      "dependencies": ["vitest", "Game.test.tsx", "core tests"],
+      "query_hints": ["testing status", "unit tests", "integration tests", "test results"]
+    },
+    {
+      "id": "0x3005",
+      "label": "Known Issues and Follow-Up",
+      "lines": [168, 207],
+      "dependencies": ["Game.test.tsx", "public/icons"],
+      "query_hints": ["known issues", "follow-up items", "technical debt", "next phase recommendations"]
+    },
+    {
+      "id": "0x3006",
+      "label": "Quick Start Manual Testing",
+      "lines": [211, 257],
+      "dependencies": ["chrome://extensions", "dist/", "PHASE_05_TESTING.md"],
+      "query_hints": ["quick start", "manual testing", "smoke test", "load extension chrome"]
+    },
+    {
+      "id": "0x3007",
+      "label": "Sign-Off and Completion",
+      "lines": [261, 303],
+      "dependencies": ["all phase 05 files"],
+      "query_hints": ["sign-off", "completion criteria", "phase complete", "files created", "next phase"]
+    }
+  ]
+}

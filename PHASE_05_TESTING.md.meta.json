@@ -1,0 +1,79 @@
+{
+  "filename": "PHASE_05_TESTING.md",
+  "file_stats": {
+    "total_lines": 694,
+    "byte_size": 23145
+  },
+  "blocks": [
+    {
+      "id": "0x2001",
+      "label": "Pre-Testing Setup",
+      "lines": [13, 43],
+      "dependencies": ["npm", "chrome://extensions", "dist/"],
+      "query_hints": ["setup", "build extension", "load unpacked", "developer mode", "chrome devtools"]
+    },
+    {
+      "id": "0x2002",
+      "label": "Permission Review Test",
+      "lines": [47, 77],
+      "dependencies": ["manifest.json", "chrome.runtime.getManifest()"],
+      "query_hints": ["permissions test", "storage permission", "alarms permission", "manifest validation"]
+    },
+    {
+      "id": "0x2003",
+      "label": "Offline Functionality Tests",
+      "lines": [81, 156],
+      "dependencies": ["chrome.storage", "chrome.alarms", "service worker"],
+      "query_hints": ["offline test", "network disabled", "chrome devtools", "persistence", "storage offline"]
+    },
+    {
+      "id": "0x2004",
+      "label": "Online/Offline Transition Test",
+      "lines": [160, 189],
+      "dependencies": ["chrome.storage.sync"],
+      "query_hints": ["network transition", "sync queue", "online offline", "graceful degradation"]
+    },
+    {
+      "id": "0x2005",
+      "label": "Manifest Validation Tests",
+      "lines": [193, 267],
+      "dependencies": ["manifest.json", "icons", "chrome://extensions"],
+      "query_hints": ["manifest v3", "manifest validation", "icon validation", "CSP", "schema compliance"]
+    },
+    {
+      "id": "0x2006",
+      "label": "End-to-End Extension Validation",
+      "lines": [271, 422],
+      "dependencies": ["popup", "options", "service worker", "chrome.storage", "chrome.alarms"],
+      "query_hints": ["e2e test", "popup test", "options test", "service worker test", "unit tests", "integration"]
+    },
+    {
+      "id": "0x2007",
+      "label": "Cross-Browser Session Testing",
+      "lines": [426, 478],
+      "dependencies": ["service worker", "chrome.storage", "browser lifecycle"],
+      "query_hints": ["browser restart", "service worker restart", "extension reload", "session persistence"]
+    },
+    {
+      "id": "0x2008",
+      "label": "Error Handling & Edge Cases",
+      "lines": [482, 540],
+      "dependencies": ["chrome.storage", "error handling"],
+      "query_hints": ["error handling", "storage quota", "corrupted data", "validation", "edge cases"]
+    },
+    {
+      "id": "0x2009",
+      "label": "Test Summary Checklist",
+      "lines": [544, 597],
+      "dependencies": [],
+      "query_hints": ["test checklist", "summary", "sign-off", "completion", "validation checklist"]
+    },
+    {
+      "id": "0x200A",
+      "label": "Automated Test Script",
+      "lines": [601, 675],
+      "dependencies": ["bash", "npm", "build"],
+      "query_hints": ["automation", "test script", "bash script", "automated testing", "ci"]
+    }
+  ]
+}
