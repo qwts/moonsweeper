@@ -2,6 +2,15 @@ import { BoardManager } from './Board';
 import { Command } from './commands/Command';
 import { GameConfig, GameStatus, Cell, SerializedGameState, Board } from '../types/game';
 
+interface GameSnapshot {
+  board: Board;
+  status: GameStatus;
+  revealedCount: number;
+  flaggedCells: Set<string>;
+  startTimestamp: number;
+  elapsedTime: number;
+}
+
 /**
  * Central game state manager for Minesweeper.
  * 
@@ -111,6 +120,20 @@ export class GameState {
    * @returns true if reveal was successful, false if invalid
    */
   revealCell(row: number, col: number): boolean {
+    const snapshotBefore = this.captureSnapshot();
+    const revealed = this.revealCellInternal(row, col);
+
+    if (revealed) {
+      this.recordSnapshotMove(snapshotBefore);
+    }
+
+    return revealed;
+  }
+
+  /**
+   * Internal reveal implementation without history side effects.
+   */
+  private revealCellInternal(row: number, col: number): boolean {
     const cell = this.getCell(row, col);
     
     // Invalid cell or cell already revealed/flagged
@@ -160,6 +183,20 @@ export class GameState {
    * @returns true if toggle was successful, false if invalid
    */
   toggleFlag(row: number, col: number): boolean {
+    const snapshotBefore = this.captureSnapshot();
+    const toggled = this.toggleFlagInternal(row, col);
+
+    if (toggled) {
+      this.recordSnapshotMove(snapshotBefore);
+    }
+
+    return toggled;
+  }
+
+  /**
+   * Internal flag toggle implementation without history side effects.
+   */
+  private toggleFlagInternal(row: number, col: number): boolean {
     const cell = this.getCell(row, col);
     
     // Invalid cell or cell already revealed
@@ -198,6 +235,20 @@ export class GameState {
    * @returns true if chord was successful, false if invalid
    */
   performChord(row: number, col: number): boolean {
+    const snapshotBefore = this.captureSnapshot();
+    const chorded = this.performChordInternal(row, col);
+
+    if (chorded) {
+      this.recordSnapshotMove(snapshotBefore);
+    }
+
+    return chorded;
+  }
+
+  /**
+   * Internal chord implementation without history side effects.
+   */
+  private performChordInternal(row: number, col: number): boolean {
     const cell = this.getCell(row, col);
     
     // Only chord on revealed numbered cells
@@ -223,12 +274,67 @@ export class GameState {
     let revealed = false;
     for (const neighbor of neighbors) {
       if (neighbor.state === 'hidden') {
-        this.revealCell(neighbor.row, neighbor.col);
-        revealed = true;
+        const didReveal = this.revealCellInternal(neighbor.row, neighbor.col);
+        revealed = didReveal || revealed;
       }
     }
 
     return revealed;
+  }
+
+  private captureSnapshot(): GameSnapshot {
+    const board = this.getBoard();
+    return {
+      board: {
+        rows: board.rows,
+        cols: board.cols,
+        mines: board.mines,
+        cells: board.cells.map((row) => row.map((cell) => ({ ...cell }))),
+      },
+      status: this.status,
+      revealedCount: this.revealedCount,
+      flaggedCells: new Set(this.flaggedCells),
+      startTimestamp: this.startTimestamp,
+      elapsedTime: this.elapsedTime,
+    };
+  }
+
+  private applySnapshot(snapshot: GameSnapshot): void {
+    const board = this.getBoard();
+
+    for (let row = 0; row < board.rows; row++) {
+      for (let col = 0; col < board.cols; col++) {
+        const sourceCell = snapshot.board.cells[row][col];
+        const targetCell = board.cells[row][col];
+        targetCell.state = sourceCell.state;
+        targetCell.isMine = sourceCell.isMine;
+        targetCell.adjacentMines = sourceCell.adjacentMines;
+      }
+    }
+
+    this.status = snapshot.status;
+    this.revealedCount = snapshot.revealedCount;
+    this.flaggedCells = new Set(snapshot.flaggedCells);
+    this.startTimestamp = snapshot.startTimestamp;
+    this.elapsedTime = snapshot.elapsedTime;
+  }
+
+  private recordSnapshotMove(snapshotBefore: GameSnapshot): void {
+    const snapshotAfter = this.captureSnapshot();
+    this.moveHistory = this.moveHistory.slice(0, this.historyIndex + 1);
+
+    const command: Command = {
+      execute: () => this.applySnapshot(snapshotAfter),
+      undo: () => this.applySnapshot(snapshotBefore),
+    };
+
+    this.moveHistory.push(command);
+    this.historyIndex++;
+
+    if (this.moveHistory.length > GameState.MAX_HISTORY) {
+      this.moveHistory.shift();
+      this.historyIndex--;
+    }
   }
 
   /**
