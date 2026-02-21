@@ -1,0 +1,27 @@
+{
+  "filename": "README.md",
+  "file_stats": {
+    "total_lines": 70,
+    "byte_size": 1203
+  },
+  "blocks": [
+    {
+      "id": "0xREADME",
+      "label": "Project overview and local development instructions",
+      "lines": [1, 70],
+      "dependencies": [
+        "vite",
+        "react",
+        "vitest",
+        "chrome extension manifest v3"
+      ],
+      "query_hints": [
+        "moonsweeper",
+        "chrome extension",
+        "development",
+        "build",
+        "testing"
+      ]
+    }
+  ]
+}

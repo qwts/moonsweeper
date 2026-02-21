@@ -5,6 +5,8 @@ description: "Rules for generating and retrieving primary files and metadata sid
 
 # LLM Instruction: Structured File Output & Metadata Sidecars
 
+EXCEPTION: README.md files should not be modified to include line numbers or anchors, but should still have a corresponding .meta.json sidecar for indexing and retrieval purposes.
+
 **Core Directive:**
 When generating or modifying files, you must produce two distinct outputs: the **Primary Data File** and a **Metadata Sidecar (.meta.json)**. When reading files, you must use the sidecar to retrieve only the necessary chunks, avoiding loading the entire document into context.
 
