@@ -30,7 +30,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "jsdom": "^28.1.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^7.3.6",
     "vite-plugin-web-extension": "^4.5.0",
     "vitest": "^4.0.18"
   }
