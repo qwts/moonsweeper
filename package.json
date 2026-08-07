@@ -33,5 +33,11 @@
     "vite": "^8.1.5",
     "vite-plugin-web-extension": "^4.5.1",
     "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "adm-zip": "0.6.0",
+    "shell-quote": "1.10.0",
+    "tmp": "0.2.7",
+    "uuid": "11.1.1"
   }
 }
