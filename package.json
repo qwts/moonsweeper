@@ -32,7 +32,7 @@
     "typescript": "^5.9.3",
     "vite": "^8.1.5",
     "vite-plugin-web-extension": "^4.5.1",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.1"
   },
   "overrides": {
     "adm-zip": "0.6.0",
